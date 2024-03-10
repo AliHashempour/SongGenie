@@ -36,20 +36,21 @@ def insert_to_storage(file_path, file_name):
         logging.error(e)
 
 
-def download_object(obj_name):
+def download_object(hash_obj):
     try:
         s3_resource = get_credentials()
         bucket = s3_resource.Bucket('alicloudhw1')
 
-        object_name = obj_name
+        object_name = f'{hash_obj}.mp3'
         root_directory = 'D:\programming_codes\python\myPythoneProjects\cloud-hw1'
-        download_path = os.path.join(root_directory, "savedFiles", 'downloaded.mp3')
+        download_path = os.path.join(root_directory, "savedFiles", object_name)
 
         bucket.download_file(
-            object_name,
+            hash_obj,
             download_path
         )
         print(f"file saved in : {download_path}")
+        return object_name
 
     except ClientError as e:
         logging.error(e)
