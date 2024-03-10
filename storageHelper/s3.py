@@ -1,3 +1,5 @@
+import os
+
 import boto3
 import logging
 from botocore.exceptions import ClientError
@@ -30,5 +32,24 @@ def insert_to_storage(file_path, file_name):
                 Body=file,
                 Key=object_name
             )
+    except ClientError as e:
+        logging.error(e)
+
+
+def download_object(obj_name):
+    try:
+        s3_resource = get_credentials()
+        bucket = s3_resource.Bucket('alicloudhw1')
+
+        object_name = obj_name
+        root_directory = 'D:\programming_codes\python\myPythoneProjects\cloud-hw1'
+        download_path = os.path.join(root_directory, "savedFiles", 'downloaded.mp3')
+
+        bucket.download_file(
+            object_name,
+            download_path
+        )
+        print(f"file saved in : {download_path}")
+
     except ClientError as e:
         logging.error(e)
