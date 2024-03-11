@@ -1,6 +1,7 @@
 import pika
 import os
 
+from dbHelper.mongoDB import update_status
 from musicService.songWorker import SongWorker
 
 
@@ -21,10 +22,13 @@ class RabbitMQHandler:
         self.channel.connection.close()
 
     def callback(self, ch, method, properties, body):
-        print(f'getting {str(body)}')
-        obj_name = body.decode('utf-8')
-        song_worker = SongWorker(str(obj_name))
-        song_worker.process_message()
+        try:
+            print(f'getting {str(body)}')
+            obj_name = body.decode('utf-8')
+            song_worker = SongWorker(str(obj_name))
+            song_worker.process_message()
+        except Exception as e:
+            update_status(body.decode('utf-8'), status="Failure")
 
     def consume_on_queue(self):
         self.channel.basic_consume(queue='test', on_message_callback=self.callback, auto_ack=True)
