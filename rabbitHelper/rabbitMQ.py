@@ -22,13 +22,14 @@ class RabbitMQHandler:
         self.channel.connection.close()
 
     def callback(self, ch, method, properties, body):
+        print(f'getting {str(body)}')
+        obj_name = body.decode('utf-8')
         try:
-            print(f'getting {str(body)}')
-            obj_name = body.decode('utf-8')
             song_worker = SongWorker(str(obj_name))
             song_worker.process_message()
         except Exception as e:
-            update_status(body.decode('utf-8'), status="Failure")
+            update_status(obj_name, status="Failure")
+            print(f'failed in the song progress for {obj_name} error: {e} ')
 
     def consume_on_queue(self):
         self.channel.basic_consume(queue='test', on_message_callback=self.callback, auto_ack=True)
