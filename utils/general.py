@@ -19,6 +19,9 @@ def generate_hash():
 
 def save_file(music_file):
     filename = secure_filename(music_file.filename)
-    file_path = os.path.join('savedFiles', filename)
+    directory = 'savedFiles'
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    file_path = os.path.join(directory, filename)
     music_file.save(file_path)
     return filename, file_path
