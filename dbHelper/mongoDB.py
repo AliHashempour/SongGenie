@@ -23,7 +23,7 @@ def update_songId(_id, song_id):
     }
     result = collection.update_one({'_id': _id}, update=update)
     if result.modified_count > 0:
-        print(f"Document {_id} updated successfully.")
+        print(f"Document {_id} updated successfully. to ready")
 
 
 def select_ready_records():
@@ -44,6 +44,6 @@ def update_status(_id, status):
         result = collection.update_one({'_id': _id}, update=update)
 
         if result.modified_count > 0:
-            print(f"Document {_id} updated successfully.")
+            print(f"Document {_id} updated successfully. to {status}")
     except Exception as e:
         print(f"An error occurred: {str(e)}")
