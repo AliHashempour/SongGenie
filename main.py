@@ -7,6 +7,11 @@ from storageHelper.s3 import *
 app = Flask(__name__)
 
 
+@app.route('/', methods=['GET'])
+def home():
+    return {"message": "home"}
+
+
 @app.route('/upload', methods=['POST'])
 def upload():
     response = {}
