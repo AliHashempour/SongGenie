@@ -1,4 +1,8 @@
+import os
+from dotenv import load_dotenv
 import requests
+
+load_dotenv()
 
 
 class SpotifyWorker:
@@ -18,15 +22,15 @@ class SpotifyWorker:
 
     def get_search_headers(self):
         headers = {
-            "X-RapidAPI-Key": "41db0ae0dbmshb4369a7209144dap1bf6e5jsn8938fa198638",
-            "X-RapidAPI-Host": "spotify23.p.rapidapi.com"
+            "X-RapidAPI-Key": os.getenv('SPOTIFY_API_KEY'),
+            "X-RapidAPI-Host": os.getenv('SPOTIFY_API_HOST')
         }
         return headers
 
     def get_recommend_headers(self):
         headers = {
-            "X-RapidAPI-Key": "41db0ae0dbmshb4369a7209144dap1bf6e5jsn8938fa198638",
-            "X-RapidAPI-Host": "spotify23.p.rapidapi.com"
+            "X-RapidAPI-Key": os.getenv('SPOTIFY_API_KEY'),
+            "X-RapidAPI-Host": os.getenv('SPOTIFY_API_HOST')
         }
         return headers
 

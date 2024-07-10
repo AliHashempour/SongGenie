@@ -1,6 +1,9 @@
 import os
-
+from dotenv import load_dotenv
 import requests
+
+# Load environment variables from .env file
+load_dotenv()
 
 
 class ShazamWorker:
@@ -13,24 +16,21 @@ class ShazamWorker:
         return "https://shazam-api-free.p.rapidapi.com/shazam/recognize/"
 
     def get_headers(self):
-
         headers = {
-            "X-RapidAPI-Key": "41db0ae0dbmshb4369a7209144dap1bf6e5jsn8938fa198638",
-            "X-RapidAPI-Host": "shazam-api-free.p.rapidapi.com"
+            "X-RapidAPI-Key": os.getenv('SHAZAM_API_KEY'),
+            "X-RapidAPI-Host": os.getenv('SHAZAM_API_HOST')
         }
         return headers
 
     def get_file_path(self):
-        root_directory = 'D:\programming_codes\python\myPythoneProjects\cloud-hw1'
+        root_directory = os.getenv('ROOT_DIRECTORY')
         file_path = os.path.join(root_directory, "savedFiles", self.file)
         return file_path
 
     def send_request_to_shazam(self):
-
         file_path = self.get_file_path()
 
         with open(file_path, 'rb') as file:
-            # Create a dictionary containing the file to be sent
             files = {'upload_file': file}
             response = requests.post(self.url, files=files, headers=self.headers)
 

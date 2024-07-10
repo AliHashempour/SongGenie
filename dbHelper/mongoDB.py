@@ -1,10 +1,19 @@
+import os
+from dotenv import load_dotenv
 from pymongo import MongoClient
+
+# Load environment variables from .env file
+load_dotenv()
 
 
 def connect_to_mongo():
-    cluster = MongoClient("mongodb+srv://alihashempour:1234@cluster0.qicseon.mongodb.net/?retryWrites=true&w=majority")
-    db = cluster["firstDB"]
-    collection = db["request"]
+    mongo_uri = os.getenv('MONGO_URI')
+    db_name = os.getenv('MONGO_DB_NAME')
+    collection_name = os.getenv('MONGO_COLLECTION_NAME')
+
+    cluster = MongoClient(mongo_uri)
+    db = cluster[db_name]
+    collection = db[collection_name]
     return collection
 
 
@@ -23,7 +32,7 @@ def update_songId(_id, song_id):
     }
     result = collection.update_one({'_id': _id}, update=update)
     if result.modified_count > 0:
-        print(f"Document {_id} updated successfully. to ready")
+        print(f"Document {_id} updated successfully to ready")
 
 
 def select_ready_records():
@@ -44,6 +53,6 @@ def update_status(_id, status):
         result = collection.update_one({'_id': _id}, update=update)
 
         if result.modified_count > 0:
-            print(f"Document {_id} updated successfully. to {status}")
+            print(f"Document {_id} updated successfully to {status}")
     except Exception as e:
         print(f"An error occurred: {str(e)}")
