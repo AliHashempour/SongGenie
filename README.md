@@ -16,7 +16,11 @@ services to handle data.
 - [RabbitMQ](https://www.rabbitmq.com/), Message broker.
 - [Object Storage](https://aws.amazon.com/s3/)  For storing files and data.
 
-### Setting up
+## Service Architecture
+
+![Arch Image](./arch.png)
+
+## Setting Up
 
 **Install the required packages:**
 
